@@ -36,5 +36,35 @@ model User {
   createdAt DateTime @default(now()) @map("created_at")
   updatedAt DateTime @updatedAt @map("updated_at")
   
+cartItems CartItems[]
+
   @@map("users") // table ko name users huna parxa
+}
+
+model Product {
+  id String @id @default(cuid())
+  name String
+  description String?
+  price Float
+  imageUrl String? @map("image_url")
+  stock Int
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+  
+cartItems CartItems[]
+
+  @@map("products") // table ko name products huna parxa
+}
+
+model CartItems{
+  id String @id @default(cuid())
+  userId String @map("user_id")
+  user User @relation(fields: [userId], references: [id])
+  productId String @map("product_id")
+  product Product @relation(fields: [productId], references: [id])
+  quantity Int
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  @@map("cart_items") // table ko name cart_items huna parxa
 }
