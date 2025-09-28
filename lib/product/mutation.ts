@@ -27,7 +27,7 @@ if(!validateData.success){
         }
     })
     if(!newProduct){
-        return {status: 500, message: "Failed to create product"}
+        return {status: 500, errors: "Failed to create product"}
     }
     return {status: 200, data: newProduct}
 }
@@ -59,7 +59,7 @@ try {
         }
     })
     if(!updateProduct){
-        return {status: 500, message: "Failed to update product"}
+        return {status: 500, errors: "Failed to update product"}
     }
     return {status: 200, data: updateProduct}
 } catch (error) {
@@ -75,7 +75,7 @@ try {
         where: {id}
     })
     if(!deleteProduct){
-        return {status: 500, message: "Failed to delete product"}
+        return {status: 500, errors: "Failed to delete product"}
     }
     return {status: 200, data: deleteProduct}   
 } catch (error) {

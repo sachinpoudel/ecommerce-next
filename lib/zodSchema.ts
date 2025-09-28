@@ -40,3 +40,17 @@ export const backendProductSchema = baseProductSchema.extend({
 export const backendProductEditSchema = baseProductSchema.extend({
     image: z.url({message: "url not valid"})
 })
+
+export const categorySchema = z.object({
+    name: z.string({message: "Category name is required"}).min(2, {message: "Category name must be at least 2 characters"}).max(100, {message: "Category name must be at most 100 characters"}),
+
+    description: z.string({message: "Category description is required"}).min(5, {message: "Category description must be at least 5 characters"}).max(500, {message: "Category description must be at most 500 characters"}),    
+})
+
+export const createOrderSchema = z.object({
+    cartItems:z.array(z.object({
+        productId: z.string().nonempty({message: "Product ID is required"}),
+        quantity: z.number().nonnegative().min(1, {message: "Quantity must be at least 1"}).max(100, {message: "Quantity must be at most 100"}),
+    })),
+    shippingAddress: z.string().min(5, {message: "Shipping address must be at least 5 characters"}).max(200, {message: "Shipping address must be at most 200 characters"}),
+})

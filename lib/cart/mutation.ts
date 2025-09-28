@@ -17,7 +17,8 @@ export async function createCartItem({userId, body}:{userId:string, body:{ produ
     };
   }
 
-  const item = await prisma.product.findUnique({
+  try {
+    const item = await prisma.product.findUnique({
     where:{
         id: body.productId
     }
@@ -54,10 +55,14 @@ if(!newCartItem){
     return {status: 500, errors: "Failed to add item to cart"}  
 }
 return {status: 200, data: newCartItem}
+  } catch (error) {
+    return {status: 500, message: "Internal Server Error"}
+  }
 }
 
 export async function deleteCartItem(id:string){
-    const existingCartItem = await prisma.cartItems.findFirst({
+    try {
+        const existingCartItem = await prisma.cartItems.findFirst({
         where:{
             id
         }
@@ -74,6 +79,9 @@ export async function deleteCartItem(id:string){
         return {status: 500, errors: "Failed to delete cart item"}
     }
     return {status: 200, data: deletedItem}
+    } catch (error) {
+        return {status: 500, message: "Internal Server Error"}
+    }
 }
 
 export async function updateCartItem(id:string,userId:string, data:{ productId:string, quantity:number }){

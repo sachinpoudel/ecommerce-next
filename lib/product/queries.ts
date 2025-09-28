@@ -7,11 +7,11 @@ export const getAllProducts =async () => {
         const allProduct = await prisma.product.findMany()
 
         if(!allProduct){
-            return {status: 404, message: "No products found"}
+            return {status: 404, errors: "No products found"}
         }
         return {status: 200, data: allProduct}
     } catch (error) {
-        return NextResponse.json({message: "Internal server error"}, {status: 500})
+        return ({status:500,message:"fetching error"})
     }
 }
 
@@ -27,11 +27,11 @@ export const getProductByName = async (q:string) =>{
         }
     })
     if(!product || product.length === 0){
-        return {status: 404, message: "No products found"}
+        return {status: 404, errors: "No products found"}
     }
     return {status: 200, data: product}
    } catch (error) {
-    return {status: 500, message: "Internal server error"}
+    return ({status:500,message:"fetching error"})
    }
 }
 
@@ -41,11 +41,12 @@ export const getProductById = async (id:string) => {
             where: {id}
         })
         if(!result){
-            return {status: 404, message: "Product not found"}
+            return {status: 404, errors: "Product not found"}
         } 
         return {status: 200, data: result}  
     } catch (error) {
-        return {status: 500, message: "Internal server error"}
+        console.log(error);
+        return ({status:500,message:"fetching error"})
     }
 }
 
@@ -60,11 +61,12 @@ try {
     },{updatedAt: "desc"}]
 })
 if(!result){
-    return {status: 404, message: "No products found"}
+    return {status: 404, errors: "No products found"}
 }
 return {status: 200, data: result}
 } catch (error) {
-    return {status: 500, message: "Internal server error"}  
+    console.log(error);
+    return ({status:500,message:"fetching error"}) 
 }
 
 }

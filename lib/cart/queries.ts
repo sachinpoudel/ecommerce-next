@@ -31,4 +31,4 @@ export async function getCartByUserId(userId: string) {
   return { status: 200, data: result };
 }
 
-export async function getProductByCategory() {}
+
